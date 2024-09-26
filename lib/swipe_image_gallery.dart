@@ -88,6 +88,7 @@ class SwipeImageGallery<T> {
     this.overlayController,
     this.initialOverlay,
     this.heroProperties,
+    this.overlayHeight,
   });
 
   /// [BuildContext] required for triggering the dialogs for the gallery.
@@ -153,6 +154,10 @@ class SwipeImageGallery<T> {
 
   /// Called whenever the current image index changes.
   final void Function(int)? onSwipe;
+
+  /// The height of the Overlay if it's used. The gallery will be displayed
+  /// this value lower than the top of the screen.
+  final double? overlayHeight;
 
   /// The `overlayController` is used for adding and managing the overlay
   /// widget changes. It uses a [StreamController] so that the changes made
@@ -309,19 +314,26 @@ class SwipeImageGallery<T> {
                     setState(() => showOverlay = !showOverlay);
                   }
                 },
-                child: Gallery(
-                  itemBuilder: itemBuilder,
-                  itemCount: itemCount,
-                  initialIndex: initialIndex,
-                  dismissDragDistance: dismissDragDistance,
-                  backgroundColor: backgroundColor,
-                  transitionDuration: transitionDuration,
-                  controller: controller,
-                  onSwipe: onSwipe,
-                  heroProperties: heroProperties,
-                  opacity: opacity,
-                  setBackgroundOpacity: setOpacity,
-                  children: children,
+                child: Column(
+                  children: [
+                    SizedBox(height: overlayHeight),
+                    Expanded(
+                      child: Gallery(
+                        itemBuilder: itemBuilder,
+                        itemCount: itemCount,
+                        initialIndex: initialIndex,
+                        dismissDragDistance: dismissDragDistance,
+                        backgroundColor: backgroundColor,
+                        transitionDuration: transitionDuration,
+                        controller: controller,
+                        onSwipe: onSwipe,
+                        heroProperties: heroProperties,
+                        opacity: opacity,
+                        setBackgroundOpacity: setOpacity,
+                        children: children,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               if (overlayController != null)
