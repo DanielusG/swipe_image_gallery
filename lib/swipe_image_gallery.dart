@@ -316,7 +316,7 @@ class SwipeImageGallery<T> {
                 },
                 child: Column(
                   children: [
-                    SizedBox(height: overlayHeight),
+                    Container(height: overlayHeight, color: backgroundColor,),
                     Expanded(
                       child: Gallery(
                         itemBuilder: itemBuilder,
